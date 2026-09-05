@@ -27,8 +27,8 @@ export default async function EditStudyPage({ params }: { params: { id: string }
     <div style={{ maxWidth: 720 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 40 }}>
         <h1 style={{ fontFamily: 'var(--serif)', fontSize: 32, fontWeight: 400 }}>Edit Study</h1>
-        <Link href={`/admin/studies/${study.id}/applicants`} style={{ color: 'var(--accent-ink)' }}>
-          View Applicants
+        <Link href="/admin/submissions" style={{ color: 'var(--accent-ink)' }}>
+          View Submissions
         </Link>
       </div>
       <form action={handleUpdate} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
