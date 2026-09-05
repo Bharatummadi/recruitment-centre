@@ -23,27 +23,33 @@ export async function POST(req: NextRequest) {
   ]
   if (injectionPatterns.some((p) => p.test(query))) {
     return NextResponse.json({
-      message: "I'm here to help you find clinical studies. Please describe your age, location, health conditions, or medications.",
+      message: "I'm here to help you find the right product trial. Please tell me your city, skin type, hair concerns, or what products you're interested in testing.",
       matchedSlugs: [],
     })
   }
 
-  // Fetch studies only on the first message — Lyzr session retains context for follow-ups
-  const activeStudies = isFirstMessage
-    ? await db.query.studies.findMany({
-        where: eq(studies.status, 'active'),
-        columns: { id: true, slug: true, title: true, summary: true, eligibilityCriteria: true },
+  // Fetch studies — on first message include eligibilityCriteria for full context
+  const activeStudies = await db.query.studies.findMany({
+    where: eq(studies.status, 'active'),
+    columns: { id: true, slug: true, title: true, summary: true, eligibilityCriteria: true },
+  })
+
+  // Derive accepted locations dynamically from eligibilityCriteria across all studies
+  type Criteria = { criteria?: { locations?: string[] } }
+  const acceptedLocations = [
+    ...new Set(
+      activeStudies.flatMap((s) => {
+        const ec = s.eligibilityCriteria as Criteria
+        return ec?.criteria?.locations ?? []
       })
-    : await db.query.studies.findMany({
-        where: eq(studies.status, 'active'),
-        columns: { id: true, slug: true, title: true, summary: true },
-      })
+    ),
+  ]
 
   const studiesContext = activeStudies.map((s) => ({
     slug: s.slug,
     title: s.title,
     summary: s.summary,
-    ...('eligibilityCriteria' in s ? { eligibilityCriteria: s.eligibilityCriteria } : {}),
+    ...(isFirstMessage ? { eligibilityCriteria: s.eligibilityCriteria } : {}),
   }))
 
   // ── Lyzr Agent Call ───────────────────────────────────────────────────────
@@ -73,17 +79,20 @@ export async function POST(req: NextRequest) {
   const message = isFirstMessage
     ? `User query: "${query}"
 
-Available studies (use these to find matches):
+Accepted locations (from study eligibility criteria): ${acceptedLocations.join(', ')}
+Only match participants who are based in one of these locations. If the user's location is not in this list, let them know politely and do not recommend any trials.
+
+Available trials (use these to find matches):
 ${JSON.stringify(studiesContext, null, 2)}
 
-Based on the user's profile, recommend which studies they may qualify for and explain why.
+Based on the user's profile, recommend which trials they may qualify for and explain why.
 
 At the very end of your response, on its own line, output exactly this (no extra text):
 RECOMMENDED_SLUGS:["slug1","slug2"]
-Only include slugs of studies you are actively recommending. If none match, output RECOMMENDED_SLUGS:[].`
+Only include slugs of trials you are actively recommending. If none match, output RECOMMENDED_SLUGS:[].`
     : `${query}
 
-If your answer involves recommending specific studies, end your response with:
+If your answer involves recommending specific trials, end your response with:
 RECOMMENDED_SLUGS:["slug1","slug2"]
 Otherwise end with RECOMMENDED_SLUGS:[].`
 
