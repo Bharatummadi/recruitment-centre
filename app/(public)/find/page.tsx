@@ -3,6 +3,8 @@ import { studies } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
 import AgentChat from './AgentChat'
 
+export const dynamic = 'force-dynamic'
+
 export default async function FindStudyPage() {
   const activeStudies = await db.query.studies.findMany({
     where: eq(studies.status, 'active'),
