@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { SessionProvider } from 'next-auth/react'
 
 export const metadata: Metadata = {
-  title: 'Aurelis Participant Platform',
-  description: 'Browse and enroll in clinical research studies.',
+  title: 'Aurelis Research Centre',
+  description: 'Get paid to test skincare, haircare, and grooming products. Open trials in Visakhapatnam, Hyderabad, and Bangalore.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -11,13 +11,13 @@ export default async function FindStudyPage() {
 
   return (
     <main style={{ maxWidth: 800, margin: '0 auto', padding: '64px 32px' }}>
-      <p style={{ color: 'var(--accent-ink)', fontWeight: 600, marginBottom: 8 }}>AI Study Finder</p>
+      <p style={{ color: 'var(--accent-ink)', fontWeight: 600, marginBottom: 8, fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.04em' }}>AI Trial Matcher</p>
       <h1 style={{ fontFamily: 'var(--serif)', fontSize: 40, fontWeight: 300, marginBottom: 16 }}>
-        Find the right study for you
+        Find the right trial for you
       </h1>
       <p style={{ color: 'var(--ink2)', lineHeight: 1.8, marginBottom: 48 }}>
-        Describe your age, location, health conditions, and current medications.
-        Our AI agent will match you to studies you may qualify for.
+        Tell us your city, skin type, hair concerns, and what products you currently use.
+        Our AI agent will match you to open trials you qualify for — across skincare, haircare, and grooming.
       </p>
 
       <AgentChat studies={activeStudies} />

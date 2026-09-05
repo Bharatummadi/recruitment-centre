@@ -25,7 +25,7 @@ export default async function PortalPage() {
       <h1 style={{ fontFamily: 'var(--serif)', fontSize: 36, fontWeight: 300, marginBottom: 8 }}>
         Welcome, {session!.user.name}
       </h1>
-      <p style={{ color: 'var(--ink3)', marginBottom: 48 }}>Your study participation overview.</p>
+      <p style={{ color: 'var(--ink3)', marginBottom: 48 }}>Your product trial participation overview.</p>
 
       {inReview.length > 0 && (
         <section style={{ marginBottom: 48 }}>
@@ -45,7 +45,7 @@ export default async function PortalPage() {
         </h2>
         {myEnrollments.length === 0 ? (
           <p style={{ color: 'var(--ink3)' }}>
-            No active enrollments yet. <Link href="/studies">Browse studies</Link> to get started.
+            No active enrollments yet. <Link href="/studies">Browse open trials</Link> to get started.
           </p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>

@@ -7,9 +7,9 @@ type Study = { id: string; slug: string; title: string; summary: string }
 type Message = { role: 'user' | 'agent'; content: string; matchedSlugs?: string[] }
 
 const EXAMPLES = [
-  'I am 42 years old, based in India, with skin rashes and taking antidepressant medication',
-  'Female, 60 years old, recently diagnosed as pre-diabetic, interested in nutrition studies',
-  'I have trouble sleeping and I am 58 years old, looking for non-invasive studies',
+  'I am a 27-year-old woman in Hyderabad with oily, acne-prone skin',
+  'Male, 34, based in Bangalore, experiencing hair fall for the past year',
+  'I am 45, based in Vizag, with dry and damaged hair from colouring',
 ]
 
 export default function AgentChat({ studies }: { studies: Study[] }) {
@@ -245,7 +245,7 @@ export default function AgentChat({ studies }: { studies: Study[] }) {
             onKeyDown={handleKeyDown}
             placeholder={
               messages.length === 0
-                ? 'Describe yourself — age, location, conditions, medications…'
+                ? 'E.g. I am a 30-year-old woman in Hyderabad with dry, frizzy hair…'
                 : 'Ask a follow-up question…'
             }
             rows={2}

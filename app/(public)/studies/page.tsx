@@ -10,11 +10,17 @@ export default async function StudiesPage() {
 
   return (
     <main style={{ maxWidth: 1240, margin: '0 auto', padding: '64px 32px' }}>
-      <h1 style={{ fontFamily: 'var(--serif)', fontSize: 40, fontWeight: 300, marginBottom: 40 }}>
-        Active Studies
+      <p style={{ color: 'var(--accent-ink)', fontWeight: 600, marginBottom: 8, fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+        Visakhapatnam · Hyderabad · Bangalore
+      </p>
+      <h1 style={{ fontFamily: 'var(--serif)', fontSize: 40, fontWeight: 300, marginBottom: 12 }}>
+        Open Product Trials
       </h1>
+      <p style={{ color: 'var(--ink2)', marginBottom: 40, lineHeight: 1.7 }}>
+        Consumer research trials for skincare, haircare, and grooming products. Apply to trials you qualify for and get compensated for your time.
+      </p>
       {activeStudies.length === 0 && (
-        <p style={{ color: 'var(--ink3)' }}>No active studies at this time. Check back soon.</p>
+        <p style={{ color: 'var(--ink3)' }}>No open trials at this time. Check back soon.</p>
       )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {activeStudies.map((study) => (
