@@ -10,6 +10,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Query is required' }, { status: 400 })
   }
 
+  // Basic prompt injection guard — block obvious jailbreak attempts
+  const injectionPatterns = [
+    /ignore (previous|all|your) instructions/i,
+    /pretend (you are|to be)/i,
+    /you are now/i,
+    /act as/i,
+    /forget (your|all) (instructions|rules|context)/i,
+    /new persona/i,
+    /disregard/i,
+    /system prompt/i,
+  ]
+  if (injectionPatterns.some((p) => p.test(query))) {
+    return NextResponse.json({
+      message: "I'm here to help you find clinical studies. Please describe your age, location, health conditions, or medications.",
+      matchedSlugs: [],
+    })
+  }
+
   // Fetch studies only on the first message — Lyzr session retains context for follow-ups
   const activeStudies = isFirstMessage
     ? await db.query.studies.findMany({
