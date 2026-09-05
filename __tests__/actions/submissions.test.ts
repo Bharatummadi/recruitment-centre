@@ -29,10 +29,6 @@ vi.mock('@/lib/auth', () => ({
   auth: vi.fn(),
 }))
 
-// Mock next/navigation
-vi.mock('next/navigation', () => ({
-  redirect: vi.fn(),
-}))
 
 import { approveSubmission, rejectSubmission, submitInterest } from '@/actions/submissions'
 import { auth } from '@/lib/auth'
@@ -57,7 +53,7 @@ describe('approveSubmission', () => {
       userId: 'user-1',
       status: 'screened',
     } as any)
-    vi.mocked(db.query.enrollments.findFirst).mockResolvedValue(null)
+    vi.mocked(db.query.enrollments.findFirst).mockResolvedValue(undefined)
 
     await approveSubmission('sub-123')
 
@@ -91,14 +87,19 @@ describe('submitInterest', () => {
     vi.clearAllMocks()
   })
 
-  it('redirects if user is not authenticated', async () => {
-    const { redirect } = await import('next/navigation')
-    vi.mocked(redirect).mockImplementation(() => { throw new Error('NEXT_REDIRECT') })
+  it('throws if unauthenticated and no guest info provided', async () => {
     vi.mocked(auth).mockResolvedValue(null as any)
 
-    await expect(submitInterest('study-1', {})).rejects.toThrow('NEXT_REDIRECT')
+    await expect(submitInterest('study-1', {})).rejects.toThrow('Name and email are required')
+  })
 
-    expect(redirect).toHaveBeenCalledWith('/auth/signin')
+  it('inserts guest submission when unauthenticated but guest info provided', async () => {
+    vi.mocked(auth).mockResolvedValue(null as any)
+
+    const result = await submitInterest('study-1', { q1: 'yes' }, { name: 'Jane', email: 'jane@example.com' })
+
+    expect(db.insert).toHaveBeenCalled()
+    expect(result).toEqual({ id: 'sub-123', studyId: 'study-1', userId: 'user-1' })
   })
 
   it('returns existing submission without inserting if duplicate', async () => {
@@ -114,7 +115,7 @@ describe('submitInterest', () => {
 
   it('inserts new submission when no duplicate exists', async () => {
     vi.mocked(auth).mockResolvedValue({ user: { id: 'user-1', role: 'participant' } } as any)
-    vi.mocked(db.query.interestSubmissions.findFirst).mockResolvedValue(null)
+    vi.mocked(db.query.interestSubmissions.findFirst).mockResolvedValue(undefined)
 
     const result = await submitInterest('study-1', { q1: 'yes' })
 
