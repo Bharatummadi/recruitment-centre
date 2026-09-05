@@ -32,8 +32,8 @@ export default async function AdminSubmissionsPage() {
           {submissions.map((s) => (
             <tr key={s.id} style={{ borderBottom: '1px solid var(--line)' }}>
               <td style={{ padding: '14px 16px' }}>
-                <div>{s.user.name}</div>
-                <div style={{ color: 'var(--ink3)', fontSize: 13 }}>{s.user.email}</div>
+                <div>{s.user?.name ?? s.guestName ?? 'Guest'}</div>
+                <div style={{ color: 'var(--ink3)', fontSize: 13 }}>{s.user?.email ?? s.guestEmail ?? '—'}</div>
               </td>
               <td style={{ padding: '14px 16px' }}>{s.study.title}</td>
               <td style={{ padding: '14px 16px' }}>

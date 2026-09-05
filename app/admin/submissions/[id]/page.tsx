@@ -4,14 +4,15 @@ import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import { approveSubmission, rejectSubmission } from '@/actions/submissions'
 
-export default async function SubmissionDetailPage({ params }: { params: { id: string } }) {
+export default async function SubmissionDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const submission = await db.query.interestSubmissions.findFirst({
-    where: eq(interestSubmissions.id, params.id),
+    where: eq(interestSubmissions.id, id),
     with: {
       study: { columns: { title: true, slug: true } },
       user: { columns: { name: true, email: true } },
       screeningResult: true,
-    },
+    } as const,
   })
 
   if (!submission) notFound()
@@ -26,10 +27,10 @@ export default async function SubmissionDetailPage({ params }: { params: { id: s
   return (
     <div style={{ maxWidth: 720 }}>
       <h1 style={{ fontFamily: 'var(--serif)', fontSize: 32, fontWeight: 400, marginBottom: 8 }}>
-        {submission.user.name}
+        {submission.user?.name ?? submission.guestName ?? 'Guest'}
       </h1>
       <p style={{ color: 'var(--ink3)', marginBottom: 40 }}>
-        {submission.user.email} · {submission.study.title}
+        {submission.user?.email ?? submission.guestEmail ?? 'No email'} · {submission.study.title}
       </p>
 
       {/* Screening Recommendation */}

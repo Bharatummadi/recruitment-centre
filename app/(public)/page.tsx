@@ -20,10 +20,16 @@ export default async function LandingPage() {
         <p style={{ fontSize: 18, color: 'var(--ink2)', marginBottom: 40 }}>
           Browse active clinical studies and submit your interest in minutes.
         </p>
-        <Link href="/studies"
-          style={{ padding: '14px 32px', background: 'var(--accent)', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 16 }}>
-          Browse Studies
-        </Link>
+        <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Link href="/find"
+            style={{ padding: '14px 32px', background: 'var(--accent)', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 16 }}>
+            Find My Study
+          </Link>
+          <Link href="/studies"
+            style={{ padding: '14px 32px', background: 'transparent', color: 'var(--accent-ink)', border: '1.5px solid var(--accent)', borderRadius: 8, fontWeight: 600, fontSize: 16 }}>
+            Browse All Studies
+          </Link>
+        </div>
       </section>
 
       {/* Featured studies */}

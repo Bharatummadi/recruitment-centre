@@ -5,9 +5,10 @@ import { notFound } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import InterestForm from './InterestForm'
 
-export default async function StudyDetailPage({ params }: { params: { slug: string } }) {
+export default async function StudyDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
   const study = await db.query.studies.findFirst({
-    where: eq(studies.slug, params.slug),
+    where: eq(studies.slug, slug),
   })
 
   if (!study || study.status !== 'active') notFound()
@@ -36,13 +37,7 @@ export default async function StudyDetailPage({ params }: { params: { slug: stri
         Submit Your Interest
       </h2>
 
-      {session ? (
-        <InterestForm studyId={study.id} questions={criteria.questions ?? []} />
-      ) : (
-        <p style={{ color: 'var(--ink2)' }}>
-          <a href="/auth/signin">Sign in</a> or <a href="/auth/signup">create an account</a> to submit your interest.
-        </p>
-      )}
+      <InterestForm studyId={study.id} questions={criteria.questions ?? []} isLoggedIn={!!session} />
     </main>
   )
 }

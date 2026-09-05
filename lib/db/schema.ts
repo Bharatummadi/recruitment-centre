@@ -55,9 +55,10 @@ export const interestSubmissions = pgTable('interest_submissions', {
   studyId: uuid('study_id')
     .notNull()
     .references(() => studies.id),
-  userId: uuid('user_id')
-    .notNull()
-    .references(() => users.id),
+  // Null for guest (unauthenticated) submissions
+  userId: uuid('user_id').references(() => users.id),
+  guestName: text('guest_name'),
+  guestEmail: text('guest_email'),
   // Shape: { [questionId]: answer }
   answers: jsonb('answers').notNull(),
   status: submissionStatusEnum('status').notNull().default('pending'),

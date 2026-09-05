@@ -8,9 +8,11 @@ type Question = { id: string; label: string; type: string }
 export default function InterestForm({
   studyId,
   questions,
+  isLoggedIn,
 }: {
   studyId: string
   questions: Question[]
+  isLoggedIn: boolean
 }) {
   const [submitted, setSubmitted] = useState(false)
 
@@ -21,7 +23,10 @@ export default function InterestForm({
     questions.forEach((q) => {
       answers[q.id] = fd.get(q.id) as string
     })
-    await submitInterest(studyId, answers)
+    const guest = isLoggedIn
+      ? undefined
+      : { name: fd.get('_guestName') as string, email: fd.get('_guestEmail') as string }
+    await submitInterest(studyId, answers, guest)
     setSubmitted(true)
   }
 
@@ -35,17 +40,29 @@ export default function InterestForm({
     )
   }
 
+  const inputStyle = { width: '100%', padding: '10px 14px', border: '1px solid var(--line)', borderRadius: 8 }
+
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      {!isLoggedIn && (
+        <>
+          <div>
+            <label style={{ display: 'block', fontWeight: 600, marginBottom: 8 }}>Your Name</label>
+            <input name="_guestName" type="text" required style={inputStyle} />
+          </div>
+          <div>
+            <label style={{ display: 'block', fontWeight: 600, marginBottom: 8 }}>Your Email</label>
+            <input name="_guestEmail" type="email" required style={inputStyle} />
+          </div>
+        </>
+      )}
       {questions.map((q) => (
         <div key={q.id}>
           <label style={{ display: 'block', fontWeight: 600, marginBottom: 8 }}>{q.label}</label>
           {q.type === 'textarea' ? (
-            <textarea name={q.id} required rows={4}
-              style={{ width: '100%', padding: '10px 14px', border: '1px solid var(--line)', borderRadius: 8 }} />
+            <textarea name={q.id} required rows={4} style={inputStyle} />
           ) : (
-            <input name={q.id} type={q.type} required
-              style={{ width: '100%', padding: '10px 14px', border: '1px solid var(--line)', borderRadius: 8 }} />
+            <input name={q.id} type={q.type} required style={inputStyle} />
           )}
         </div>
       ))}

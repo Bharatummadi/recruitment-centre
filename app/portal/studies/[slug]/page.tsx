@@ -4,11 +4,12 @@ import { enrollments, studies } from '@/lib/db/schema'
 import { and, eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 
-export default async function PortalStudyPage({ params }: { params: { slug: string } }) {
+export default async function PortalStudyPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
   const session = await auth()
 
   const study = await db.query.studies.findFirst({
-    where: eq(studies.slug, params.slug),
+    where: eq(studies.slug, slug),
   })
   if (!study) notFound()
 

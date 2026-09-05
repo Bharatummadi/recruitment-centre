@@ -1,6 +1,6 @@
 'use client'
 
-import { signIn } from 'next-auth/react'
+import { signIn, getSession } from 'next-auth/react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -19,7 +19,8 @@ export default function SignInPage() {
     if (result?.error) {
       setError('Invalid email or password')
     } else {
-      router.push('/')
+      const session = await getSession()
+      router.push(session?.user?.role === 'admin' ? '/admin' : '/')
     }
   }
 

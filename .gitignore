@@ -40,3 +40,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI tool configs
+.superpowers/
+CLAUDE.md
+AGENTS.md
+
+# Design artifacts
+Design system setup/

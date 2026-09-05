@@ -5,15 +5,16 @@ import { notFound } from 'next/navigation'
 import { updateStudy } from '@/actions/studies'
 import Link from 'next/link'
 
-export default async function EditStudyPage({ params }: { params: { id: string } }) {
+export default async function EditStudyPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const study = await db.query.studies.findFirst({
-    where: eq(studies.id, params.id),
+    where: eq(studies.id, id),
   })
   if (!study) notFound()
 
   async function handleUpdate(formData: FormData) {
     'use server'
-    await updateStudy(params.id, {
+    await updateStudy(id, {
       title: formData.get('title') as string,
       summary: formData.get('summary') as string,
       description: formData.get('description') as string,
