@@ -15,7 +15,7 @@ type StudyInput = {
   eligibilityCriteria: unknown
 }
 
-export async function createStudy(input: StudyInput) {
+export async function createStudy(input: StudyInput): Promise<void> {
   const session = await auth()
   if (session?.user?.role !== 'admin') throw new Error('Unauthorized')
 
@@ -36,6 +36,17 @@ export async function createStudy(input: StudyInput) {
   })
 
   redirect('/admin/studies')
+}
+
+export async function createStudyFromForm(formData: FormData): Promise<void> {
+  return createStudy({
+    title: formData.get('title') as string,
+    slug: formData.get('slug') as string,
+    description: formData.get('description') as string,
+    summary: formData.get('summary') as string,
+    contactEmail: formData.get('contactEmail') as string,
+    eligibilityCriteria: formData.get('eligibilityCriteria') as string,
+  })
 }
 
 export async function updateStudy(

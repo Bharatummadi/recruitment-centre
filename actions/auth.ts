@@ -6,20 +6,20 @@ import bcrypt from 'bcryptjs'
 import { eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 
-export async function signUp(formData: FormData) {
+export async function signUp(formData: FormData): Promise<void> {
   const email = formData.get('email') as string
   const name = formData.get('name') as string
   const password = formData.get('password') as string
 
   if (!email || !name || !password) {
-    return { error: 'All fields are required' }
+    redirect('/auth/signup?error=missing_fields')
   }
 
   const existing = await db.query.users.findFirst({
     where: eq(users.email, email),
   })
   if (existing) {
-    return { error: 'An account with this email already exists' }
+    redirect('/auth/signup?error=email_taken')
   }
 
   const passwordHash = await bcrypt.hash(password, 12)

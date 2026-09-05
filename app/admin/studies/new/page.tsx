@@ -1,10 +1,10 @@
-import { createStudy } from '@/actions/studies'
+import { createStudyFromForm } from '@/actions/studies'
 
 export default function NewStudyPage() {
   return (
     <div style={{ maxWidth: 720 }}>
       <h1 style={{ fontFamily: 'var(--serif)', fontSize: 32, fontWeight: 400, marginBottom: 40 }}>New Study</h1>
-      <form action={createStudy} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <form action={createStudyFromForm} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
         <Field name="title" label="Title" />
         <Field name="slug" label="URL Slug (e.g. heart-health-2026)" />
         <Field name="summary" label="Summary (short, shown on cards)" />
