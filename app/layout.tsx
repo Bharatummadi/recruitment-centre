@@ -34,6 +34,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           ::selection { background: var(--accent-soft); }
           p { margin: 0 0 8px; }
           h1, h2, h3 { margin: 0; }
+
+          /* Nav & header */
+          .nav-link { transition: color 0.15s; }
+          .nav-link:hover { color: var(--ink) !important; }
+
+          /* Buttons */
+          .btn-dark { transition: background 0.15s; }
+          .btn-dark:hover { background: var(--accent-ink) !important; }
+
+          .btn-outline { transition: border-color 0.15s, background 0.15s; }
+          .btn-outline:hover { border-color: var(--ink3) !important; }
+
+          .btn-ink-outline { transition: background 0.15s, color 0.15s; }
+          .btn-ink-outline:hover { background: var(--ink) !important; color: #fff !important; }
+
+          /* Cards */
+          .study-card { transition: border-color 0.15s; }
+          .study-card:hover { border-color: var(--ink3) !important; }
+
+          /* Underline link */
+          .link-underline { transition: color 0.15s, border-color 0.15s; }
+          .link-underline:hover { color: var(--accent-ink) !important; border-color: var(--accent-ink) !important; }
         `}</style>
       </head>
       <body>

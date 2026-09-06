@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
-  if (!session) redirect('/auth/signin')
+  if (!session) redirect('/portal/signin')
 
   return (
     <div style={{ minHeight: '100vh' }}>
