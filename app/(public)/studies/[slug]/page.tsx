@@ -44,6 +44,7 @@ export default async function StudyDetailPage({ params }: { params: Promise<{ sl
         studyId={study.id}
         studyTitle={study.title}
         questions={criteria.questions ?? []}
+        criteria={criteria.criteria ?? {}}
         isLoggedIn={!!session}
         userName={session?.user?.name ?? undefined}
         userEmail={session?.user?.email ?? undefined}
