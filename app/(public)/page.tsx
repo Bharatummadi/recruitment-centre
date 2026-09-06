@@ -101,7 +101,7 @@ export default async function LandingPage() {
         </div>
 
         {/* Hero image + floating stat card */}
-        <div style={{ position: 'relative', paddingBottom: 26 }}>
+        <div style={{ position: 'relative', paddingBottom: 26, maxWidth: 520, justifySelf: 'end', width: '100%' }}>
           <div style={{ aspectRatio: '4/5', borderRadius: 24, overflow: 'hidden', position: 'relative', boxShadow: '0 24px 64px rgba(31,29,27,0.10)' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
