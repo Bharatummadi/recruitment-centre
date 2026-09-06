@@ -3,7 +3,7 @@ import { studies } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import { auth } from '@/lib/auth'
-import InterestForm from './InterestForm'
+import IntakeChat from './IntakeChat'
 
 export default async function StudyDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -33,11 +33,21 @@ export default async function StudyDetailPage({ params }: { params: Promise<{ sl
 
       <hr style={{ margin: '48px 0', borderColor: 'var(--line)' }} />
 
-      <h2 style={{ fontFamily: 'var(--serif)', fontSize: 28, fontWeight: 400, marginBottom: 32 }}>
+      <h2 style={{ fontFamily: 'var(--serif)', fontSize: 28, fontWeight: 400, marginBottom: 8 }}>
         Submit Your Interest
       </h2>
+      <p style={{ color: 'var(--ink2)', marginBottom: 32, lineHeight: 1.7 }}>
+        Our assistant will guide you through a few quick questions about your eligibility and contact details.
+      </p>
 
-      <InterestForm studyId={study.id} questions={criteria.questions ?? []} isLoggedIn={!!session} />
+      <IntakeChat
+        studyId={study.id}
+        studyTitle={study.title}
+        questions={criteria.questions ?? []}
+        isLoggedIn={!!session}
+        userName={session?.user?.name ?? undefined}
+        userEmail={session?.user?.email ?? undefined}
+      />
     </main>
   )
 }
