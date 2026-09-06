@@ -55,7 +55,7 @@ export default async function LandingPage() {
     <>
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
       <section style={{
-        maxWidth: 1240, margin: '0 auto', padding: '76px 32px 84px',
+        maxWidth: 1240, margin: '0 auto', padding: '52px 32px 64px',
         display: 'grid', gridTemplateColumns: 'minmax(0,1.05fr) minmax(0,0.95fr)',
         gap: 64, alignItems: 'center',
       }}>
@@ -101,7 +101,7 @@ export default async function LandingPage() {
         </div>
 
         {/* Hero image + floating stat card */}
-        <div style={{ position: 'relative', paddingBottom: 26, maxWidth: 520, justifySelf: 'end', width: '100%' }}>
+        <div style={{ position: 'relative', paddingBottom: 26, maxWidth: 460, justifySelf: 'end', width: '100%' }}>
           <div style={{ aspectRatio: '4/5', borderRadius: 24, overflow: 'hidden', position: 'relative', boxShadow: '0 24px 64px rgba(31,29,27,0.10)' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
