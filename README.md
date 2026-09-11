@@ -4,6 +4,7 @@ A clinical and consumer research study recruitment platform that connects study 
 
 ## Demo
 
+https://github.com/user-attachments/assets/da8ffc88-4423-40b0-8737-8e2dfef7aafb
 
 
 ## Features
@@ -79,7 +80,3 @@ app/
   portal/           # Authenticated participant portal
   auth/             # Sign in / sign up
 ```
-
-## License
-
-Private project. All rights reserved.
