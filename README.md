@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aurelis Recruitment Center
+
+A clinical and consumer research study recruitment platform that connects study teams with eligible participants. Built with Next.js, it features an AI-powered intake agent that screens participants conversationally, an admin dashboard for managing studies and reviewing submissions, and a participant portal for tracking enrollment status.
+
+## Demo
+
+
+
+## Features
+
+- **Public study listings** — Browse and search active research studies
+- **AI-powered intake agent** — A conversational Claude-backed agent that screens participant eligibility on the study detail page, replacing a static form
+- **Study finder agent** — Chat interface to help visitors discover relevant studies
+- **Admin dashboard** — Metrics (submissions, eligibility rate, enrollment rate), study CRUD, and submission review with AI screening recommendations
+- **Participant portal** — Enrolled participants can view their studies and enrollment status
+- **Role-based access** — Three tiers: public visitor, participant, admin; protected via NextAuth middleware
+
+## Tech Stack
+
+| Layer | Choice |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript |
+| Database | Neon (serverless Postgres) |
+| ORM | Drizzle |
+| Auth | NextAuth.js v5 |
+| AI Agent | Claude API (Anthropic) |
+| Styling | Tailwind CSS v4 |
+| Deployment | Vercel |
+
+## How It Works
+
+1. A visitor browses studies at `/studies` and opens a study detail page
+2. An AI intake agent (powered by Claude) greets them and collects eligibility information through natural conversation
+3. On submission, the agent screens the responses against the study's eligibility criteria and saves a `screening_result` with a recommendation and confidence score
+4. An admin reviews the submission at `/admin/submissions/[id]`, sees the AI recommendation, and approves or rejects
+5. On approval, the participant gains access to `/portal` with their enrolled study details
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+
+- A [Neon](https://neon.tech) database
+- An [Anthropic](https://console.anthropic.com) API key
+- A NextAuth secret
+
+### Environment Variables
+
+Create a `.env.local` file:
+
+```env
+DATABASE_URL=your_neon_connection_string
+AUTH_SECRET=your_nextauth_secret
+ANTHROPIC_API_KEY=your_anthropic_api_key
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install and Run
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-## Learn More
+### Database Setup
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npx drizzle-kit push
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/
+  (public)/         # Public pages: landing, studies, find
+  admin/            # Admin dashboard, studies CRUD, submission review
+  portal/           # Authenticated participant portal
+  auth/             # Sign in / sign up
+```
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Private project. All rights reserved.
